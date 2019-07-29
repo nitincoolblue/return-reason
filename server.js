@@ -23,6 +23,11 @@ app.get('/:productType/:reason/subreason/', function (req, res) {
 });
 
 
+app.post('/:productType/:reason/subreason/', function (req, res) {
+  repo.getSubReason(req.params, res);
+});
+
+
 
 
 app.listen(3000, () => console.log('listening on port 3000!'))
