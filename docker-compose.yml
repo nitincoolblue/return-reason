@@ -1,0 +1,31 @@
+version: '2'
+services:
+  return-reason-service-mysql:
+     image: mysql:5.6
+     volumes:
+       - ./database/data:/database
+     environment:
+       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+       - MYSQL_DATABASE=returnreason
+     ports:
+       - 3306:3306
+     networks:
+       - privatenetwork
+  return-reason-service-splunk:
+     image: splunk/splunk:latest
+     hostname: splunkenterprise
+     container_name: return-reason-service-splunk
+     environment:
+       SPLUNK_START_ARGS: --accept-license --answer-yes
+       SPLUNK_ENABLE_LISTEN: 9997
+       SPLUNK_ADD: udp 1515
+       SPLUNK_USER: root
+     ports:
+       - 8000:8000
+       - 9997:9997
+       - 8088:8088
+       - 1515:1515/udp
+networks: 
+  privatenetwork:
+    external: 
+      name: return-reason-service-network
